@@ -1,0 +1,1545 @@
+
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Interaktif - Modernisasi Teknologi</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .title-font { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(15, 23, 42, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(15, 23, 42, 0.5), 0 0 60px rgba(15, 23, 42, 0.2); }
+    }
+    
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes bounce-in {
+      0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    
+    @keyframes spin-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes character-walk {
+      0%, 100% { transform: translateX(0px) scaleX(1); }
+      25% { transform: translateX(100px) scaleX(1); }
+      50% { transform: translateX(200px) scaleX(-1); }
+      75% { transform: translateX(100px) scaleX(-1); }
+    }
+    
+    @keyframes character-bounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    @keyframes blob-move-1 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 30px) scale(0.9); }
+    }
+    
+    @keyframes blob-move-2 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(-40px, 20px) scale(0.9); }
+      66% { transform: translate(50px, -30px) scale(1.1); }
+    }
+    
+    @keyframes blob-move-3 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(20px, 40px) scale(1.05); }
+      66% { transform: translate(-30px, -40px) scale(0.95); }
+    }
+    
+    @keyframes floating-particles {
+      0% { transform: translateY(100%) translateX(0px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100%) translateX(100px) rotate(360deg); opacity: 0; }
+    }
+    
+    @keyframes pulse-ring {
+      0% { 
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7),
+                    0 0 0 10px rgba(59, 130, 246, 0.5),
+                    0 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0),
+                    0 0 0 30px rgba(59, 130, 246, 0),
+                    0 0 0 50px rgba(59, 130, 246, 0);
+      }
+    }
+    
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .blob-1 { animation: blob-move-1 8s ease-in-out infinite; }
+    .blob-2 { animation: blob-move-2 10s ease-in-out infinite; }
+    .blob-3 { animation: blob-move-3 12s ease-in-out infinite; }
+    .particle { animation: floating-particles 15s infinite linear; }
+    .pulse-ring { animation: pulse-ring 2s infinite; }
+    .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .animate-slide-up { animation: slide-up 0.8s ease-out forwards; }
+    .animate-bounce-in { animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 4px 6px rgba(15, 23, 42, 0.05);
+    }
+    
+    .cyber-border {
+      position: relative;
+    }
+    .cyber-border::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(45deg, #0f172a, #1e293b, #0f172a);
+      border-radius: inherit;
+      z-index: -1;
+      animation: gradient-shift 3s linear infinite;
+      background-size: 200% 200%;
+    }
+    
+    .page { display: none; }
+    .page.active { display: flex; }
+    
+    .quiz-option:hover { transform: scale(1.02); }
+    .quiz-option.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.15); }
+    .quiz-option.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.15); }
+    .quiz-option.wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); }
+    
+    .game-card {
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .game-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .game-card.flipped .game-card-inner { transform: rotateY(180deg); }
+    .game-card.matched .game-card-inner { transform: rotateY(180deg); }
+    .game-card-front, .game-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .game-card-front { background: linear-gradient(135deg, #e5e7eb, #d1d5db); border: 2px solid #9ca3af; }
+    .game-card-back { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); transform: rotateY(180deg); border: 2px solid #9ca3af; }
+
+    .timeline-card {
+      background: white;
+      border: 2px solid #06b6d4;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: move;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(6, 182, 212, 0.2);
+    }
+    .timeline-card.dragging {
+      opacity: 0.6;
+      transform: scale(0.95);
+    }
+
+    .timeline-slot {
+      background: white;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .timeline-slot.drag-over {
+      background: #d0f4ff;
+      border-color: #06b6d4;
+    }
+    .timeline-slot.filled {
+      border-style: solid;
+      border-color: #06b6d4;
+      background: #f0f9ff;
+    }
+    .timeline-slot.correct {
+      background: #dcfce7;
+      border-color: #10b981;
+    }
+    .timeline-slot.wrong {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full overflow-auto" style="background: #f5f7fa;">
+  <!-- BACKSOUND WEBSITE -->
+ <audio id="bg-music" loop>
+    <source src="backsound_compressed.mp3" type="audio/mpeg">
+ </audio>
+
+ <script>
+ document.addEventListener("click", function () {
+  const music = document.getElementById("bg-music");
+  music.play().catch(()=>{});
+ }, { once: true });
+ </script>
+  <div id="app" class="w-full h-full"><!-- HOME PAGE -->
+   <div id="page-home" class="page flex-col items-center justify-center min-h-full p-8 relative overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+     <!-- Glowing blob shapes -->
+     <svg class="absolute w-96 h-96 blob-1 opacity-20 -top-40 -left-40" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="80" fill="#3b82f6" />
+     </svg>
+     <svg class="absolute w-80 h-80 blob-2 opacity-15 -bottom-32 -right-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="70" fill="#8b5cf6" />
+     </svg>
+     <svg class="absolute w-72 h-72 blob-3 opacity-20 top-1/3 right-1/4" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="60" fill="#06b6d4" />
+     </svg>
+     <div class="absolute left-1/4 w-2 h-2 bg-blue-400 rounded-full particle opacity-60" style="animation-delay: 0s"></div>
+     <div class="absolute left-1/3 w-1.5 h-1.5 bg-purple-400 rounded-full particle opacity-50" style="animation-delay: 2s"></div>
+     <div class="absolute right-1/4 w-2.5 h-2.5 bg-cyan-400 rounded-full particle opacity-40" style="animation-delay: 4s"></div>
+     <div class="absolute right-1/3 w-2 h-2 bg-indigo-400 rounded-full particle opacity-45" style="animation-delay: 6s"></div>
+     <div class="absolute left-1/2 w-1.5 h-1.5 bg-blue-300 rounded-full particle opacity-35" style="animation-delay: 8s"></div>
+     <div class="absolute right-1/2 w-2 h-2 bg-purple-300 rounded-full particle opacity-40" style="animation-delay: 10s"></div>
+     <svg class="absolute inset-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+       <pattern id="grid" width="50" height="50" patternunits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#0f172a" stroke-width="0.5" />
+       </pattern>
+      </defs> <rect width="100%" height="100%" fill="url(#grid)" />
+     </svg>
+     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-blue-500 rounded-full pulse-ring"></div>
+    </div>
+    <div class="text-center max-w-4xl mx-auto animate-slide-up relative z-10">
+     <div class="mb-12 animate-float">
+      <svg class="w-64 h-64 mx-auto" viewbox="0 0 200 280" fill="none">
+       <defs>
+        <lineargradient id="headGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+         <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+        </lineargradient>
+        <lineargradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+         <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+        </lineargradient>
+        <lineargradient id="armGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+         <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+         <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+        </lineargradient>
+        <filter id="glow">
+         <fegaussianblur stddeviation="3" result="coloredBlur" />
+         <femerge>
+          <femergenode in="coloredBlur" />
+          <femergenode in="SourceGraphic" />
+         </femerge>
+        </filter>
+       </defs> <ellipse cx="100" cy="265" rx="65" ry="12" fill="rgba(15, 23, 42, 0.2)" /> <g>
+        <rect x="70" y="170" width="18" height="85" rx="9" fill="#6366f1" stroke="#4f46e5" stroke-width="2" />
+        <rect x="65" y="250" width="28" height="18" rx="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+       </g> <g>
+        <rect x="112" y="170" width="18" height="85" rx="9" fill="#6366f1" stroke="#4f46e5" stroke-width="2" />
+        <rect x="107" y="250" width="28" height="18" rx="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+       </g> <rect x="60" y="130" width="80" height="60" rx="20" fill="url(#bodyGradient)" stroke="#0891b2" stroke-width="3" /> <rect x="70" y="140" width="60" height="20" rx="15" fill="rgba(255, 255, 255, 0.15)" /> <rect x="75" y="145" width="50" height="40" rx="12" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(15, 23, 42, 0.1)" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5" /> <circle cx="100" cy="165" r="14" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" filter="url(#glow)" /> <text x="100" y="171" text-anchor="middle" font-size="16" fill="#1e40af" font-weight="bold">
+        ⚡
+       </text> <circle cx="60" cy="150" r="8" fill="url(#bodyGradient)" stroke="#0891b2" stroke-width="2" /> <circle cx="140" cy="150" r="8" fill="url(#bodyGradient)" stroke="#0891b2" stroke-width="2" /> <g>
+        <path d="M 60 145 Q 30 140 15 160" stroke="url(#armGradient)" stroke-width="16" stroke-linecap="round" fill="none" />
+        <circle cx="10" cy="170" r="16" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+        <rect x="6" y="135" width="8" height="40" rx="4" fill="#f59e0b" stroke="#d97706" stroke-width="1.5" />
+        <circle cx="10" cy="130" r="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5" />
+       </g> <g>
+        <path d="M 140 145 Q 170 140 185 160" stroke="url(#armGradient)" stroke-width="16" stroke-linecap="round" fill="none" />
+        <circle cx="190" cy="170" r="16" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+        <rect x="186" y="135" width="8" height="40" rx="4" fill="#f59e0b" stroke="#d97706" stroke-width="1.5" />
+        <circle cx="190" cy="130" r="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5" />
+       </g> <rect x="85" y="115" width="30" height="20" rx="8" fill="url(#bodyGradient)" stroke="#0891b2" stroke-width="2" /> <rect x="55" y="30" width="90" height="95" rx="25" fill="url(#headGradient)" stroke="#1e40af" stroke-width="3" /> <ellipse cx="85" cy="45" rx="25" ry="15" fill="rgba(255, 255, 255, 0.2)" /> <rect x="65" y="55" width="20" height="25" rx="8" fill="#ffffff" stroke="#1e40af" stroke-width="1.5" /> <circle cx="75" cy="68" r="8" fill="#000000" /> <circle cx="77" cy="66" r="3" fill="#fbbf24" /> <rect x="115" y="55" width="20" height="25" rx="8" fill="#ffffff" stroke="#1e40af" stroke-width="1.5" /> <circle cx="125" cy="68" r="8" fill="#000000" /> <circle cx="127" cy="66" r="3" fill="#fbbf24" /> <path d="M 80 90 Q 100 105 120 90" stroke="#1e40af" stroke-width="3" fill="none" stroke-linecap="round" /> <circle cx="90" cy="98" r="2" fill="#1e40af" opacity="0.6" /> <circle cx="110" cy="98" r="2" fill="#1e40af" opacity="0.6" /> <g>
+        <line x1="65" y1="25" x2="55" y2="5" stroke="#2563eb" stroke-width="5" stroke-linecap="round" />
+        <circle cx="55" cy="5" r="8" fill="#fbbf24" filter="url(#glow)" />
+       </g> <g>
+        <line x1="100" y1="20" x2="100" y2="0" stroke="#2563eb" stroke-width="5" stroke-linecap="round" />
+        <circle cx="100" cy="0" r="8" fill="#fbbf24" filter="url(#glow)" />
+       </g> <g>
+        <line x1="135" y1="25" x2="145" y2="5" stroke="#2563eb" stroke-width="5" stroke-linecap="round" />
+        <circle cx="145" cy="5" r="8" fill="#fbbf24" filter="url(#glow)" />
+       </g>
+      </svg>
+     </div>
+     <h1 id="main-title" class="title-font text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900 mb-4">MODERNISASI TEKNOLOGI</h1>
+     <p id="subtitle" class="text-xl md:text-2xl text-slate-600 mb-12 font-medium">Jelajahi Era Digital dan Transformasi Teknologi Modern</p><button onclick="navigateTo('menu')" class="cyber-border group relative px-12 py-5 bg-gradient-to-r from-slate-700 to-slate-800 rounded-full text-white text-2xl font-bold uppercase tracking-wider animate-pulse-glow transition-all duration-300 hover:scale-110"> <span class="flex items-center gap-3">
+       <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
+       </svg> MULAI </span> </button>
+     <div class="mt-16 flex justify-center gap-8 opacity-40">
+      <div class="w-3 h-3 bg-slate-400 rounded-full animate-pulse"></div>
+      <div class="w-3 h-3 bg-slate-500 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+      <div class="w-3 h-3 bg-slate-600 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+     </div>
+    </div>
+   </div><!-- MENU PAGE -->
+   <div id="page-menu" class="page flex-col items-center justify-center min-h-full p-8 relative overflow-hidden" style="background: #f8fafc;">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+     <svg class="absolute w-96 h-96 blob-1 opacity-15 -top-40 -right-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#8b5cf6" />
+     </svg>
+     <svg class="absolute w-80 h-80 blob-2 opacity-10 -bottom-32 -left-40" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="70" fill="#3b82f6" />
+     </svg>
+     <svg class="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg"><defs>
+       <pattern id="grid-menu" width="50" height="50" patternunits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#0f172a" stroke-width="0.5" />
+       </pattern>
+      </defs><rect width="100%" height="100%" fill="url(#grid-menu)" />
+     </svg><!-- AI Robot Characters - Redesigned --> <!-- Robot 1: Cyan Tech Bot (Top Center-Left) -->
+     <svg class="absolute w-52 h-52 top-16 left-12 opacity-75 animate-float" viewbox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+       <lineargradient id="cyanBotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+       </lineargradient>
+       <filter id="glowCyan">
+        <fegaussianblur stddeviation="2.5" result="coloredBlur" />
+        <femerge>
+         <femergenode in="coloredBlur" />
+         <femergenode in="SourceGraphic" />
+        </femerge>
+       </filter>
+      </defs> <rect x="28" y="50" width="44" height="52" rx="12" fill="url(#cyanBotGrad)" stroke="#0891b2" stroke-width="2.5" /> <rect x="33" y="56" width="34" height="28" rx="6" fill="rgba(255,255,255,0.15)" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4,3" /> <circle cx="42" cy="65" r="3" fill="#06b6d4" opacity="0.6" /><circle cx="50" cy="65" r="3" fill="#06b6d4" opacity="0.6" /><circle cx="58" cy="65" r="3" fill="#06b6d4" opacity="0.6" /> <circle cx="50" cy="32" r="20" fill="url(#cyanBotGrad)" stroke="#0891b2" stroke-width="2.5" /> <circle cx="40" cy="28" r="7" fill="#fef3c7" filter="url(#glowCyan)" /><circle cx="60" cy="28" r="7" fill="#fef3c7" filter="url(#glowCyan)" /> <circle cx="40" cy="29" r="3.5" fill="#1e3a8a" /><circle cx="60" cy="29" r="3.5" fill="#1e3a8a" /> <circle cx="41" cy="27" r="1.5" fill="white" /><circle cx="61" cy="27" r="1.5" fill="white" /> <path d="M 38 38 Q 50 44 62 38" stroke="#fbbf24" stroke-width="2.5" fill="none" stroke-linecap="round" /> <rect x="14" y="68" width="10" height="30" rx="5" fill="#06b6d4" stroke="#0891b2" stroke-width="1.5" /> <rect x="76" y="68" width="10" height="30" rx="5" fill="#06b6d4" stroke="#0891b2" stroke-width="1.5" /> <circle cx="19" cy="102" r="7" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5" /><circle cx="81" cy="102" r="7" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5" /> <line x1="42" y1="10" x2="38" y2="-5" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" /> <circle cx="38" cy="-7" r="5" fill="#fbbf24" filter="url(#glowCyan)" /> <line x1="58" y1="10" x2="62" y2="-5" stroke="#06b6d4" stroke-width="3" stroke-linecap="round" /> <circle cx="62" cy="-7" r="5" fill="#fbbf24" filter="url(#glowCyan)" /> <rect x="38" y="104" width="10" height="14" rx="3" fill="#0891b2" /><rect x="52" y="104" width="10" height="14" rx="3" fill="#0891b2" />
+     </svg><!-- Robot 2: Pink Creative Bot (Bottom Right) -->
+     <svg class="absolute w-48 h-48 -bottom-6 right-20 opacity-70 animate-pulse" style="animation-delay: 0.4s" viewbox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+       <lineargradient id="pinkBotGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#be185d;stop-opacity:1" />
+       </lineargradient>
+       <filter id="glowPink">
+        <fegaussianblur stddeviation="2" result="coloredBlur" />
+        <femerge>
+         <femergenode in="coloredBlur" />
+         <femergenode in="SourceGraphic" />
+        </femerge>
+       </filter>
+      </defs> <rect x="30" y="52" width="40" height="48" rx="10" fill="url(#pinkBotGrad)" stroke="#be185d" stroke-width="2" /> <rect x="36" y="58" width="28" height="20" rx="5" fill="rgba(255,255,255,0.12)" stroke="#ec4899" stroke-width="1" /> <rect x="25" y="18" width="50" height="38" rx="14" fill="url(#pinkBotGrad)" stroke="#be185d" stroke-width="2" /> <ellipse cx="40" cy="32" rx="6" ry="7" fill="#fff7ed" filter="url(#glowPink)" /><ellipse cx="60" cy="32" rx="6" ry="7" fill="#fff7ed" filter="url(#glowPink)" /> <circle cx="40" cy="34" r="3" fill="#1e3a8a" /><circle cx="60" cy="34" r="3" fill="#1e3a8a" /> <path d="M 42 42 Q 50 46 58 42" stroke="#fff7ed" stroke-width="2" fill="none" stroke-linecap="round" /> <rect x="16" y="70" width="9" height="28" rx="4.5" fill="#ec4899" stroke="#be185d" stroke-width="1" /> <rect x="75" y="70" width="9" height="28" rx="4.5" fill="#ec4899" stroke="#be185d" stroke-width="1" /> <circle cx="21" cy="102" r="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" /><circle cx="79" cy="102" r="6" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" /> <line x1="45" y1="16" x2="42" y2="0" stroke="#fff7ed" stroke-width="2.5" stroke-linecap="round" /> <circle cx="42" cy="-2" r="4" fill="#fbbf24" filter="url(#glowPink)" /> <rect x="40" y="102" width="8" height="16" rx="2" fill="#be185d" /><rect x="52" y="102" width="8" height="16" rx="2" fill="#be185d" />
+     </svg><!-- Old Robot Code Placeholder -->
+     <svg class="absolute w-48 h-48 -top-20 left-0 opacity-70 animate-bounce" style="animation-delay: 0.2s; display:none;" viewbox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+       <lineargradient id="blueBotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+       </lineargradient>
+       <filter id="glow1">
+        <fegaussianblur stddeviation="2" result="coloredBlur" />
+        <femerge>
+         <femergenode in="coloredBlur" />
+         <femergenode in="SourceGraphic" />
+        </femerge>
+       </filter>
+      </defs> <!-- Body --> <rect x="35" y="60" width="50" height="50" rx="10" fill="url(#blueBotGrad)" stroke="#1e3a8a" stroke-width="2" /> <!-- Head --> <circle cx="60" cy="35" r="22" fill="url(#blueBotGrad)" stroke="#1e3a8a" stroke-width="2" /> <!-- Eyes --> <circle cx="50" cy="30" r="6" fill="#fbbf24" filter="url(#glow1)" /> <circle cx="70" cy="30" r="6" fill="#fbbf24" filter="url(#glow1)" /> <!-- Pupils --> <circle cx="51" cy="31" r="2.5" fill="#1e3a8a" /> <circle cx="71" cy="31" r="2.5" fill="#1e3a8a" /> <!-- Smile --> <path d="M 50 40 Q 60 45 70 40" stroke="#fbbf24" stroke-width="2" fill="none" stroke-linecap="round" /> <!-- Arms --> <rect x="20" y="75" width="12" height="35" rx="6" fill="#2563eb" stroke="#1e40af" stroke-width="1" /> <rect x="88" y="75" width="12" height="35" rx="6" fill="#2563eb" stroke="#1e40af" stroke-width="1" /> <!-- Hand gloves --> <circle cx="26" cy="115" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" /> <circle cx="94" cy="115" r="8" fill="#fbbf24" stroke="#f59e0b" stroke-width="1" /> <!-- Antenna --> <line x1="50" y1="10" x2="45" y2="-5" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" /> <circle cx="45" cy="-7" r="4" fill="#fbbf24" /> <line x1="70" y1="10" x2="75" y2="-5" stroke="#fbbf24" stroke-width="3" stroke-linecap="round" /> <circle cx="75" cy="-7" r="4" fill="#fbbf24" /> <!-- Legs --> <rect x="43" y="112" width="8" height="20" rx="4" fill="#1e40af" /> <rect x="69" y="112" width="8" height="20" rx="4" fill="#1e40af" />
+     </svg><!-- Robot 2: Purple Tech Bot (Bottom Left) -->
+     <svg class="absolute w-40 h-40 bottom-0 -left-16 opacity-60 animate-pulse" style="animation-delay: 0.6s" viewbox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+       <lineargradient id="purpleBotGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#7e22ce;stop-opacity:1" />
+       </lineargradient>
+       <filter id="glow2">
+        <fegaussianblur stddeviation="2.5" result="coloredBlur" />
+        <femerge>
+         <femergenode in="coloredBlur" />
+         <femergenode in="SourceGraphic" />
+        </femerge>
+       </filter>
+      </defs> <!-- Main body --> <rect x="25" y="50" width="50" height="55" rx="12" fill="url(#purpleBotGrad)" stroke="#6b21a8" stroke-width="2" /> <!-- Chest panel --> <rect x="30" y="55" width="40" height="30" rx="6" fill="rgba(255,255,255,0.1)" stroke="#a855f7" stroke-width="1" stroke-dasharray="3,2" /> <!-- Head --> <rect x="20" y="15" width="60" height="40" rx="15" fill="url(#purpleBotGrad)" stroke="#6b21a8" stroke-width="2" /> <!-- Large eyes with glow --> <circle cx="38" cy="32" r="7" fill="#06b6d4" filter="url(#glow2)" /> <circle cx="62" cy="32" r="7" fill="#06b6d4" filter="url(#glow2)" /> <!-- Eye shine --> <circle cx="39" cy="30" r="2" fill="white" /> <circle cx="63" cy="30" r="2" fill="white" /> <!-- Arms with joints --> <rect x="12" y="65" width="10" height="28" rx="5" fill="#a855f7" stroke="#6b21a8" stroke-width="1" /> <rect x="78" y="65" width="10" height="28" rx="5" fill="#a855f7" stroke="#6b21a8" stroke-width="1" /> <!-- Hand pads --> <rect x="8" y="95" width="18" height="12" rx="4" fill="#06b6d4" stroke="#0891b2" stroke-width="1" /> <rect x="74" y="95" width="18" height="12" rx="4" fill="#06b6d4" stroke="#0891b2" stroke-width="1" /> <!-- Antenna spikes --> <line x1="35" y1="12" x2="30" y2="-3" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" /> <line x1="50" y1="10" x2="50" y2="-5" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" /> <line x1="65" y1="12" x2="70" y2="-3" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" /> <!-- Feet --> <rect x="35" y="106" width="12" height="18" rx="3" fill="#7e22ce" /> <rect x="53" y="106" width="12" height="18" rx="3" fill="#7e22ce" />
+     </svg>
+    </div>
+    <div class="max-w-5xl w-full mx-auto relative z-10">
+     <h2 class="title-font text-4xl md:text-5xl font-bold text-center text-slate-900 mb-12 animate-slide-up">PILIH MENU</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <button onclick="navigateTo('materi')" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.1s;">
+       <div class="flex items-center gap-6">
+        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="text-2xl font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">MATERI</h3>
+         <p class="text-slate-600 text-lg">Pelajari konsep modernisasi teknologi</p>
+        </div>
+       </div></button> <button onclick="navigateTo('video')" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.2s;">
+       <div class="flex items-center gap-6">
+        <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="text-2xl font-bold text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">VIDEO</h3>
+         <p class="text-slate-600 text-lg">Tonton video pembelajaran interaktif</p>
+        </div>
+       </div></button> <button onclick="navigateTo('quiz')" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.3s;">
+       <div class="flex items-center gap-6">
+        <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="text-2xl font-bold text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">KUIS</h3>
+         <p class="text-slate-600 text-lg">Uji pemahamanmu dengan kuis</p>
+        </div>
+       </div></button> <button onclick="navigateTo('game-menu')" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.4s;">
+       <div class="flex items-center gap-6">
+        <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="text-2xl font-bold text-slate-900 mb-1 group-hover:text-amber-600 transition-colors">GAME</h3>
+         <p class="text-slate-600 text-lg">Bermain sambil belajar</p>
+        </div>
+       </div></button>
+     </div>
+     <div class="text-center mt-10"><button onclick="navigateTo('home')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+       </svg> Kembali ke Beranda </button>
+     </div>
+    </div>
+   </div><!-- MATERI PAGE -->
+   <div id="page-materi" class="page flex-col min-h-full p-6 md:p-8 relative overflow-hidden" style="background: #f8fafc;">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+     <svg class="absolute w-96 h-96 blob-1 opacity-15 -top-40 -right-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#8b5cf6" />
+     </svg>
+     <svg class="absolute w-80 h-80 blob-2 opacity-10 -bottom-32 -left-40" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="70" fill="#3b82f6" />
+     </svg>
+     <svg class="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg"><defs>
+       <pattern id="grid-materi" width="50" height="50" patternunits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#0f172a" stroke-width="0.5" />
+       </pattern>
+      </defs><rect width="100%" height="100%" fill="url(#grid-materi)" />
+     </svg>
+    </div>
+    <div class="max-w-4xl w-full mx-auto relative z-10">
+     <div class="glass-card rounded-3xl p-8 md:p-10 animate-slide-up">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900 mb-8 text-center">MODERNISASI TEKNOLOGI</h2>
+      <div class="space-y-6 text-slate-900">
+       <div class="glass-card p-6 rounded-xl border-l-4 border-blue-500">
+        <h3 class="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2"><span class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">1</span> Pengertian Modernisasi Teknologi</h3>
+        <p class="text-slate-700 leading-relaxed text-lg">Modernisasi teknologi adalah proses transformasi dari teknologi tradisional menuju teknologi yang lebih canggih dan efisien. Hal ini mencakup adopsi sistem digital, otomatisasi, dan inovasi yang mengubah cara kita bekerja, berkomunikasi, dan menjalani kehidupan sehari-hari.</p>
+       </div>
+       <div class="glass-card p-6 rounded-xl border-l-4 border-indigo-500">
+        <h3 class="text-xl font-bold text-indigo-700 mb-3 flex items-center gap-2"><span class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-sm">2</span> Ciri-ciri Modernisasi Teknologi</h3>
+        <ul class="text-slate-700 space-y-2 text-lg">
+         <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">▸</span> <span><strong>Digitalisasi:</strong> Perpindahan dari analog ke digital</span></li>
+         <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">▸</span> <span><strong>Otomatisasi:</strong> Penggunaan mesin dan AI untuk pekerjaan</span></li>
+         <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">▸</span> <span><strong>Konektivitas:</strong> Internet menghubungkan seluruh dunia</span></li>
+         <li class="flex items-start gap-2"><span class="text-indigo-500 mt-1">▸</span> <span><strong>Inovasi Berkelanjutan:</strong> Perkembangan yang terus-menerus</span></li>
+        </ul>
+       </div>
+       <div class="glass-card p-6 rounded-xl border-l-4 border-purple-500">
+        <h3 class="text-xl font-bold text-purple-700 mb-3 flex items-center gap-2"><span class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">3</span> Contoh Modernisasi Teknologi</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+         <div class="text-center p-4 bg-slate-100 rounded-xl">
+          <div class="text-4xl mb-2">
+           📱
+          </div>
+          <p class="text-sm font-medium text-slate-700">Smartphone</p>
+         </div>
+         <div class="text-center p-4 bg-slate-100 rounded-xl">
+          <div class="text-4xl mb-2">
+           🤖
+          </div>
+          <p class="text-sm font-medium text-slate-700">AI &amp; Robot</p>
+         </div>
+         <div class="text-center p-4 bg-slate-100 rounded-xl">
+          <div class="text-4xl mb-2">
+           ☁️
+          </div>
+          <p class="text-sm font-medium text-slate-700">Cloud Computing</p>
+         </div>
+         <div class="text-center p-4 bg-slate-100 rounded-xl">
+          <div class="text-4xl mb-2">
+           🚗
+          </div>
+          <p class="text-sm font-medium text-slate-700">Mobil Listrik</p>
+         </div>
+        </div>
+       </div>
+       <div class="glass-card p-6 rounded-xl border-l-4 border-emerald-500">
+        <h3 class="text-xl font-bold text-emerald-700 mb-3 flex items-center gap-2"><span class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-sm">4</span> Dampak Modernisasi Teknologi</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+          <h4 class="font-bold text-emerald-700 mb-2">✅ Dampak Positif</h4>
+          <ul class="text-sm space-y-1 text-slate-700">
+           <li>• Efisiensi dan produktivitas meningkat</li>
+           <li>• Akses informasi lebih mudah</li>
+           <li>• Komunikasi tanpa batas</li>
+           <li>• Inovasi di berbagai bidang</li>
+          </ul>
+         </div>
+         <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+          <h4 class="font-bold text-red-700 mb-2">⚠️ Tantangan</h4>
+          <ul class="text-sm space-y-1 text-slate-700">
+           <li>• Kesenjangan digital</li>
+           <li>• Privasi dan keamanan data</li>
+           <li>• Pengangguran teknologi</li>
+           <li>• Ketergantungan teknologi</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="text-center mt-8"><button onclick="navigateTo('menu')" class="px-8 py-3 bg-slate-700 hover:bg-slate-800 rounded-full text-white font-bold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Menu </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- VIDEO PAGE -->
+   <div id="page-video" class="page flex-col items-center justify-center min-h-full p-6 md:p-8 relative overflow-hidden" style="background: #f8fafc;">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+     <svg class="absolute w-96 h-96 blob-1 opacity-15 -top-40 -right-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#8b5cf6" />
+     </svg>
+     <svg class="absolute w-80 h-80 blob-2 opacity-10 -bottom-32 -left-40" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="70" fill="#3b82f6" />
+     </svg>
+     <svg class="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg"><defs>
+       <pattern id="grid-video" width="50" height="50" patternunits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#0f172a" stroke-width="0.5" />
+       </pattern>
+      </defs><rect width="100%" height="100%" fill="url(#grid-video)" />
+     </svg>
+    </div>
+    <div class="max-w-4xl w-full mx-auto relative z-10">
+     <div class="glass-card rounded-3xl p-6 md:p-8">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-slate-900 mb-6 text-center">VIDEO PEMBELAJARAN</h2>
+      <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 w-full mb-6 aspect-video flex items-center justify-center group cursor-pointer hover:from-slate-800 hover:to-slate-700 transition-all" onclick="openVideoModal()">
+       <div class="absolute inset-0 bg-black opacity-30"></div>
+       <div class="relative text-center">
+        <div class="text-8xl mb-4 transform group-hover:scale-110 transition-transform">
+         ▶️
+        </div>
+        <p class="text-white text-xl font-bold">Klik untuk Tonton Video</p>
+        <p class="text-slate-300 text-sm mt-2">Modernisasi Teknologi (8 menit)</p>
+       </div>
+      </div>
+      <div class="glass-card p-4 rounded-xl mb-6">
+       <h3 class="text-lg font-bold text-slate-900 mb-2">📺 Tentang Video Ini</h3>
+       <p class="text-slate-700">Video ini menjelaskan tentang perkembangan teknologi modern dan bagaimana teknologi mengubah kehidupan manusia di era digital. Tonton dengan seksama untuk memahami materi lebih baik!</p>
+      </div>
+      <div class="text-center"><button onclick="navigateTo('menu')" class="px-8 py-3 bg-slate-700 hover:bg-slate-800 rounded-full text-white font-bold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Menu </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- QUIZ PAGE -->
+   <div id="page-quiz" class="page flex-col min-h-full p-6 md:p-8 relative overflow-hidden" style="background: #f8fafc;">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+     <svg class="absolute w-96 h-96 blob-1 opacity-15 -top-40 -right-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#8b5cf6" />
+     </svg>
+     <svg class="absolute w-80 h-80 blob-2 opacity-10 -bottom-32 -left-40" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="70" fill="#3b82f6" />
+     </svg>
+     <svg class="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg"><defs>
+       <pattern id="grid-quiz" width="50" height="50" patternunits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#0f172a" stroke-width="0.5" />
+       </pattern>
+      </defs><rect width="100%" height="100%" fill="url(#grid-quiz)" />
+     </svg>
+    </div>
+    <div class="max-w-3xl w-full mx-auto relative z-10">
+     <div class="glass-card rounded-3xl p-6 md:p-8">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-slate-900 mb-6 text-center">KUIS INTERAKTIF</h2>
+      <div class="mb-6">
+       <div class="flex justify-between text-slate-900 mb-2">
+        <span id="quiz-progress">Soal 1 dari 5</span> <span id="quiz-score">Skor: 0</span>
+       </div>
+       <div class="w-full bg-slate-200 rounded-full h-3">
+        <div id="quiz-progress-bar" class="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500" style="width: 20%"></div>
+       </div>
+      </div>
+      <div id="quiz-container">
+       <div id="quiz-question" class="text-xl md:text-2xl font-bold text-slate-900 mb-6 p-4 bg-slate-100 rounded-xl"></div>
+       <div id="quiz-options" class="space-y-3"></div>
+      </div>
+      <div id="quiz-result" class="hidden text-center py-8">
+       <div class="text-6xl mb-4" id="result-emoji">
+        🎉
+       </div>
+       <h3 class="text-2xl font-bold text-slate-900 mb-2">Kuis Selesai!</h3>
+       <p id="result-text" class="text-xl text-emerald-600 mb-6"></p>
+       <div class="flex gap-4 justify-center"><button onclick="restartQuiz()" class="px-6 py-3 bg-green-600 hover:bg-green-500 rounded-full text-white font-bold transition-all">🔄 Ulangi Kuis</button> <button onclick="saveQuizScore()" class="px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-full text-white font-bold transition-all">💾 Simpan Skor</button>
+       </div>
+      </div>
+      <div class="text-center mt-6"><button onclick="navigateTo('menu')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Menu </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- GAME MENU PAGE -->
+   <div id="page-game-menu" class="page flex-col items-center justify-center min-h-full p-8 relative overflow-hidden" style="background: #f8fafc;">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+     <svg class="absolute w-96 h-96 blob-1 opacity-15 -top-40 -right-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="#8b5cf6" />
+     </svg>
+     <svg class="absolute w-80 h-80 blob-2 opacity-10 -bottom-32 -left-40" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="70" fill="#3b82f6" />
+     </svg>
+     <svg class="absolute inset-0 w-full h-full opacity-3" xmlns="http://www.w3.org/2000/svg"><defs>
+       <pattern id="grid-game" width="50" height="50" patternunits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#0f172a" stroke-width="0.5" />
+       </pattern>
+      </defs><rect width="100%" height="100%" fill="url(#grid-game)" />
+     </svg>
+    </div>
+    <div class="max-w-5xl w-full mx-auto relative z-10">
+     <h2 class="title-font text-4xl md:text-5xl font-bold text-center text-slate-900 mb-12">PILIH GAME</h2>
+     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><button onclick="startMemoryGame()" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.1s;">
+       <div class="text-center">
+        <div class="text-6xl mb-4">
+         🧠
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">MEMORY GAME</h3>
+        <p class="text-slate-600 text-sm mb-4">Cocokkan pasangan kartu teknologi.</p>
+        <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold inline-block">
+         ⭐ Standar
+        </div>
+       </div></button> <button onclick="startSpeedQuiz()" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.2s;">
+       <div class="text-center">
+        <div class="text-6xl mb-4">
+         ⚡
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors">SPEED QUIZ</h3>
+        <p class="text-slate-600 text-sm mb-4">Tebak gambar dalam 30 detik!</p>
+        <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold inline-block">
+         ⭐⭐ Menengah
+        </div>
+       </div></button> <button onclick="startWordScramble()" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.3s;">
+       <div class="text-center">
+        <div class="text-6xl mb-4">
+         🔤
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2 group-hover:text-purple-600 transition-colors">WORD SCRAMBLE</h3>
+        <p class="text-slate-600 text-sm mb-4">Susun huruf acak menjadi kata!</p>
+        <div class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold inline-block">
+         ⭐⭐⭐ Sulit
+        </div>
+       </div></button> <button onclick="startTimelineGame()" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in" style="animation-delay: 0.4s;">
+       <div class="text-center">
+        <div class="text-6xl mb-4">
+         ⏱️
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2 group-hover:text-cyan-600 transition-colors">TIMELINE TEKNOLOGI</h3>
+        <p class="text-slate-600 text-sm mb-4">Urutkan teknologi dari era ke era!</p>
+        <div class="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-xs font-bold inline-block">
+         ⭐⭐⭐ Sulit
+        </div>
+       </div></button> <a href="https://www.gimkit.com/join?gc=553734" target="_blank" rel="noopener noreferrer" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in no-underline" style="animation-delay: 0.5s;">
+       <div class="text-center">
+        <div class="text-6xl mb-4">
+         🎯
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2 group-hover:text-red-600 transition-colors">GIMKIT</h3>
+        <p class="text-slate-600 text-sm mb-4">Bermain kuis real-time multiplayer!</p>
+        <div class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold inline-block">
+         🌟 Ekstra Seru
+        </div>
+       </div></a> <a href="https://wordwall.net/resource/108954973/ips/game-modernisasi" target="_blank" rel="noopener noreferrer" class="glass-card group p-8 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-lg text-left animate-bounce-in no-underline" style="animation-delay: 0.6s;">
+       <div class="text-center">
+        <div class="text-6xl mb-4">
+         📚
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">WORDWALL</h3>
+        <p class="text-slate-600 text-sm mb-4">Game interaktif modernisasi teknologi!</p>
+        <div class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold inline-block">
+         ⭐⭐ Menengah
+        </div>
+       </div></a>
+     </div>
+     <div class="text-center mt-10"><button onclick="navigateTo('menu')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+       </svg> Kembali ke Menu </button>
+     </div>
+    </div>
+   </div><!-- MEMORY GAME PAGE -->
+   <div id="page-memory-game" class="page flex-col min-h-full p-6 md:p-8">
+    <div class="max-w-4xl w-full mx-auto">
+     <div class="glass-card rounded-3xl p-6 md:p-8">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">🧠 MEMORY GAME</h2>
+      <p class="text-center text-slate-700 mb-6">Cocokkan pasangan kartu teknologi! Temukan semua pasangan dengan langkah seminimal mungkin.</p>
+      <div class="flex justify-center gap-6 mb-6">
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Langkah
+        </div>
+        <div id="memory-moves" class="text-2xl font-bold text-blue-600">
+         0
+        </div>
+       </div>
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Pasangan
+        </div>
+        <div id="memory-pairs" class="text-2xl font-bold text-emerald-600">
+         0/6
+        </div>
+       </div>
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Waktu
+        </div>
+        <div id="memory-timer" class="text-2xl font-bold text-indigo-600">
+         00:00
+        </div>
+       </div>
+      </div>
+      <div id="memory-board" class="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 max-w-lg mx-auto mb-6"></div>
+      <div id="memory-result" class="hidden text-center py-6">
+       <div class="text-6xl mb-4">
+        🏆
+       </div>
+       <h3 class="text-2xl font-bold text-slate-900 mb-2">Selamat!</h3>
+       <p id="memory-result-text" class="text-lg text-blue-600 mb-4"></p>
+       <div class="flex gap-4 justify-center"><button onclick="startMemoryGame()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-full text-white font-bold transition-all">🔄 Main Lagi</button> <button onclick="navigateTo('game-menu')" class="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded-full text-white font-bold transition-all">◀ Kembali</button>
+       </div>
+      </div>
+      <div id="memory-playing" class="text-center"><button onclick="stopMemoryTimer(); navigateTo('game-menu')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Game </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- SPEED QUIZ PAGE -->
+   <div id="page-speed-quiz" class="page flex-col min-h-full p-6 md:p-8">
+    <div class="max-w-3xl w-full mx-auto">
+     <div class="glass-card rounded-3xl p-6 md:p-8">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">⚡ SPEED QUIZ</h2>
+      <p class="text-center text-slate-700 mb-6">Jawab dalam 30 detik per soal!</p>
+      <div class="flex justify-center gap-6 mb-6">
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Skor
+        </div>
+        <div id="speed-score" class="text-2xl font-bold text-amber-600">
+         0
+        </div>
+       </div>
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Waktu
+        </div>
+        <div id="speed-countdown" class="text-2xl font-bold text-red-600">
+         30
+        </div>
+       </div>
+      </div>
+      <div id="speed-question-div" class="text-xl md:text-2xl font-bold text-slate-900 mb-6 p-4 bg-slate-100 rounded-xl">
+       Mengatur pertanyaan...
+      </div>
+      <div id="speed-options" class="space-y-3 mb-6"></div>
+      <div id="speed-result" class="hidden text-center py-6">
+       <div class="text-6xl mb-4">
+        🏅
+       </div>
+       <h3 class="text-2xl font-bold text-slate-900 mb-2">Game Selesai!</h3>
+       <p id="speed-result-text" class="text-lg text-amber-600 mb-4"></p>
+       <div class="flex gap-4 justify-center"><button onclick="startSpeedQuiz()" class="px-6 py-3 bg-amber-600 hover:bg-amber-500 rounded-full text-white font-bold transition-all">🔄 Coba Lagi</button> <button onclick="navigateTo('game-menu')" class="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded-full text-white font-bold transition-all">◀ Kembali</button>
+       </div>
+      </div>
+      <div id="speed-playing" class="text-center"><button onclick="navigateTo('game-menu')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Game </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- WORD SCRAMBLE PAGE -->
+   <div id="page-word-scramble" class="page flex-col min-h-full p-6 md:p-8">
+    <div class="max-w-3xl w-full mx-auto">
+     <div class="glass-card rounded-3xl p-6 md:p-8">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">🔤 WORD SCRAMBLE</h2>
+      <p class="text-center text-slate-700 mb-6">Susun huruf acak menjadi kata teknologi yang benar!</p>
+      <div class="flex justify-center gap-6 mb-6">
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Benar
+        </div>
+        <div id="scramble-correct" class="text-2xl font-bold text-emerald-600">
+         0
+        </div>
+       </div>
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Soal
+        </div>
+        <div id="scramble-question-num" class="text-2xl font-bold text-purple-600">
+         1/5
+        </div>
+       </div>
+      </div>
+      <div class="text-center mb-6">
+       <p class="text-slate-600 mb-3">Susun menjadi:</p>
+       <div id="scramble-hint" class="text-2xl font-bold text-slate-900 bg-slate-100 p-4 rounded-xl mb-4"></div>
+       <div id="scramble-scrambled" class="flex flex-wrap justify-center gap-2 mb-6"></div><input type="text" id="scramble-answer" placeholder="Ketik jawabanmu..." class="w-full px-4 py-3 border-2 border-slate-300 rounded-xl text-lg mb-4">
+       <div class="flex gap-3 justify-center"><button onclick="submitScrambleAnswer()" class="px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-full text-white font-bold transition-all">✓ Kirim</button> <button onclick="skipScrambleWord()" class="px-6 py-3 bg-slate-400 hover:bg-slate-300 rounded-full text-slate-900 font-bold transition-all">⊘ Lewati</button>
+       </div>
+      </div>
+      <div id="scramble-result" class="hidden text-center py-6">
+       <div class="text-6xl mb-4">
+        🎯
+       </div>
+       <h3 class="text-2xl font-bold text-slate-900 mb-2">Game Selesai!</h3>
+       <p id="scramble-result-text" class="text-lg text-purple-600 mb-4"></p>
+       <div class="flex gap-4 justify-center"><button onclick="startWordScramble()" class="px-6 py-3 bg-purple-600 hover:bg-purple-500 rounded-full text-white font-bold transition-all">🔄 Coba Lagi</button> <button onclick="navigateTo('game-menu')" class="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded-full text-white font-bold transition-all">◀ Kembali</button>
+       </div>
+      </div>
+      <div id="scramble-playing" class="text-center"><button onclick="navigateTo('game-menu')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Game </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- TIMELINE GAME PAGE -->
+   <div id="page-timeline-game" class="page flex-col min-h-full p-6 md:p-8">
+    <div class="max-w-4xl w-full mx-auto">
+     <div class="glass-card rounded-3xl p-6 md:p-8">
+      <h2 class="title-font text-3xl md:text-4xl font-bold text-slate-900 mb-4 text-center">⏱️ TIMELINE TEKNOLOGI</h2>
+      <p class="text-center text-slate-700 mb-6">Drag &amp; drop kartu teknologi ke urutan yang benar (dari terbaru ke terlama)!</p>
+      <div class="flex justify-center gap-6 mb-6">
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Selesai
+        </div>
+        <div id="timeline-correct" class="text-2xl font-bold text-cyan-600">
+         0
+        </div>
+       </div>
+       <div class="glass-card px-6 py-3 rounded-xl text-center">
+        <div class="text-sm text-slate-600">
+         Level
+        </div>
+        <div id="timeline-level" class="text-2xl font-bold text-cyan-600">
+         1/3
+        </div>
+       </div>
+      </div>
+      <div id="timeline-playing">
+       <div class="mb-6 p-4 bg-cyan-50 rounded-xl border border-cyan-200">
+        <p class="text-center text-slate-600 mb-3 font-medium">📌 Kartu yang perlu diurutkan:</p>
+        <div id="timeline-items" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+       </div>
+       <div class="mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <p class="text-center text-slate-600 mb-3 font-medium">✓ Tempatkan di sini (terbaru → terlama):</p>
+        <div id="timeline-drop-area" class="space-y-2"></div>
+       </div>
+       <div class="text-center"><button onclick="submitTimelineAnswer()" class="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 rounded-full text-white font-bold transition-all">✓ Cek Jawaban</button>
+       </div>
+      </div>
+      <div id="timeline-result" class="hidden text-center py-6">
+       <div class="text-6xl mb-4">
+        🏆
+       </div>
+       <h3 class="text-2xl font-bold text-slate-900 mb-2">Level Selesai!</h3>
+       <p id="timeline-result-text" class="text-lg text-cyan-600 mb-4"></p>
+       <div class="flex gap-4 justify-center"><button onclick="startTimelineGame()" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 rounded-full text-white font-bold transition-all">🔄 Coba Lagi</button> <button onclick="navigateTo('game-menu')" class="px-6 py-3 bg-slate-600 hover:bg-slate-500 rounded-full text-white font-bold transition-all">◀ Kembali</button>
+       </div>
+      </div>
+      <div id="timeline-playing-btn" class="text-center mt-6"><button onclick="navigateTo('game-menu')" class="px-8 py-3 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-900 font-semibold transition-all flex items-center gap-2 mx-auto">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg> Kembali ke Game </button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Video Modal -->
+  <div id="video-modal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4" onclick="if(event.target.id === 'video-modal') closeVideoModal()">
+   <div class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl animate-bounce-in">
+    <button onclick="closeVideoModal()" class="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl z-10 transition-all">✕</button> <iframe id="video-player" class="w-full h-full" src="" title="Video Modernisasi Teknologi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: 'MODERNISASI TEKNOLOGI',
+      subtitle: 'Jelajahi Era Digital dan Transformasi Teknologi Modern',
+      font_family: 'Plus Jakarta Sans',
+      font_size: 16
+    };
+
+    const quizData = [
+      {
+        question: "Apa yang dimaksud dengan modernisasi teknologi?",
+        options: ["Kembali ke teknologi tradisional", "Transformasi dari teknologi tradisional ke canggih", "Menghilangkan semua teknologi", "Hanya menggunakan internet"],
+        correct: 1
+      },
+      {
+        question: "Manakah yang termasuk ciri modernisasi teknologi?",
+        options: ["Digitalisasi dan otomatisasi", "Menggunakan kertas saja", "Menghindari internet", "Bekerja manual sepenuhnya"],
+        correct: 0
+      },
+      {
+        question: "Apa dampak positif modernisasi teknologi?",
+        options: ["Komunikasi lebih sulit", "Efisiensi dan produktivitas meningkat", "Akses informasi terbatas", "Inovasi terhenti"],
+        correct: 1
+      },
+      {
+        question: "Contoh modernisasi teknologi di bidang transportasi adalah...",
+        options: ["Kereta kuda", "Sepeda kayuh", "Mobil listrik dan otonom", "Becak tradisional"],
+        correct: 2
+      },
+      {
+        question: "Yang merupakan tantangan modernisasi teknologi adalah...",
+        options: ["Komunikasi lebih mudah", "Kesenjangan digital", "Efisiensi meningkat", "Inovasi berkembang"],
+        correct: 1
+      }
+    ];
+
+    const speedQuizData = [
+      { emoji: "📱", question: "Apa ini?", options: ["Smartphone", "Tablet", "Laptop", "Smartwatch"], correct: 0 },
+      { emoji: "🤖", question: "Apa ini?", options: ["Mainan", "Robot/AI", "Boneka", "Proyektor"], correct: 1 },
+      { emoji: "☁️", question: "Apa ini?", options: ["Cuaca", "Cloud Computing", "Pabrik", "Asap"], correct: 1 },
+      { emoji: "💻", question: "Apa ini?", options: ["Printer", "Komputer", "Mesin", "Kamera"], correct: 1 },
+      { emoji: "🔒", question: "Apa ini?", options: ["Pintu", "Keamanan/Enkripsi", "Peti", "Gembok"], correct: 1 }
+    ];
+
+    const wordScrambleData = [
+      { word: "DIGITAL", hint: "Berbasis angka biner" },
+      { word: "INTERNET", hint: "Jaringan global komputer" },
+      { word: "SMARTPHONE", hint: "Ponsel pintar" },
+      { word: "OTOMASI", hint: "Proses kerja otomatis" },
+      { word: "INOVASI", hint: "Ide dan produk baru" }
+    ];
+
+    const timelineData = [
+      {
+        items: [
+          { name: "Smartphone", year: 2007 },
+          { name: "Internet", year: 1991 },
+          { name: "PC Desktop", year: 1981 }
+        ]
+      },
+      {
+        items: [
+          { name: "Cloud Computing", year: 2006 },
+          { name: "Komputer", year: 1943 },
+          { name: "Telegram", year: 1844 }
+        ]
+      },
+      {
+        items: [
+          { name: "AI ChatBot", year: 2022 },
+          { name: "TV", year: 1927 },
+          { name: "Radio", year: 1906 }
+        ]
+      }
+    ];
+
+    const gameIcons = ['📱', '💻', '🤖', '☁️', '🚗', '🎮'];
+    
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+    let gameCards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let gameMoves = 0;
+    let gameTimer = null;
+    let gameSeconds = 0;
+    let isProcessing = false;
+    let recordCount = 0;
+
+    let speedQuizIndex = 0;
+    let speedScore = 0;
+    let speedTimer = null;
+    let speedCountdown = 30;
+    let speedAnswered = false;
+
+    let scrambleIndex = 0;
+    let scrambleCorrect = 0;
+
+    let timelineIndex = 0;
+    let timelineCorrect = 0;
+    let draggedItem = null;
+    let timelineItems = [];
+
+    function navigateTo(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      if (page === 'quiz') restartQuiz();
+    }
+
+    function startMemoryGame() {
+      navigateTo('memory-game');
+      setTimeout(() => initMemoryGame(), 100);
+    }
+
+    function initMemoryGame() {
+      const board = document.getElementById('memory-board');
+      board.innerHTML = '';
+      const cardPairs = [...gameIcons, ...gameIcons];
+      gameCards = shuffleArray(cardPairs);
+      
+      gameCards.forEach((icon, index) => {
+        const card = document.createElement('div');
+        card.className = 'game-card aspect-square';
+        card.innerHTML = `
+          <div class="game-card-inner">
+            <div class="game-card-front"><span class="text-3xl text-cyan-400">?</span></div>
+            <div class="game-card-back"><span class="text-4xl">${icon}</span></div>
+          </div>
+        `;
+        card.dataset.index = index;
+        card.dataset.icon = icon;
+        card.onclick = () => flipMemoryCard(card);
+        board.appendChild(card);
+      });
+      
+      matchedPairs = 0;
+      gameMoves = 0;
+      gameSeconds = 0;
+      flippedCards = [];
+      updateMemoryStats();
+      startMemoryTimer();
+    }
+
+    function flipMemoryCard(card) {
+      if (isProcessing || card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) return;
+      card.classList.add('flipped');
+      flippedCards.push(card);
+      if (flippedCards.length === 2) {
+        gameMoves++;
+        updateMemoryStats();
+        checkMemoryMatch();
+      }
+    }
+
+    function checkMemoryMatch() {
+      isProcessing = true;
+      const [card1, card2] = flippedCards;
+      
+      if (card1.dataset.icon === card2.dataset.icon) {
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        matchedPairs++;
+        updateMemoryStats();
+        flippedCards = [];
+        isProcessing = false;
+        
+        if (matchedPairs === gameIcons.length) {
+          stopMemoryTimer();
+          showMemoryResult();
+        }
+      } else {
+        setTimeout(() => {
+          card1.classList.remove('flipped');
+          card2.classList.remove('flipped');
+          flippedCards = [];
+          isProcessing = false;
+        }, 1000);
+      }
+    }
+
+    function updateMemoryStats() {
+      document.getElementById('memory-moves').textContent = gameMoves;
+      document.getElementById('memory-pairs').textContent = `${matchedPairs}/${gameIcons.length}`;
+    }
+
+    function startMemoryTimer() {
+      stopMemoryTimer();
+      gameTimer = setInterval(() => {
+        gameSeconds++;
+        const mins = Math.floor(gameSeconds / 60).toString().padStart(2, '0');
+        const secs = (gameSeconds % 60).toString().padStart(2, '0');
+        document.getElementById('memory-timer').textContent = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function stopMemoryTimer() {
+      if (gameTimer) clearInterval(gameTimer);
+      gameTimer = null;
+    }
+
+    function showMemoryResult() {
+      document.getElementById('memory-board').classList.add('hidden');
+      document.getElementById('memory-playing').classList.add('hidden');
+      document.getElementById('memory-result').classList.remove('hidden');
+      const mins = Math.floor(gameSeconds / 60);
+      const secs = gameSeconds % 60;
+      document.getElementById('memory-result-text').textContent = `Selesai dalam ${gameMoves} langkah dan ${mins}:${secs.toString().padStart(2, '0')}!`;
+    }
+
+    function startSpeedQuiz() {
+      navigateTo('speed-quiz');
+      setTimeout(() => {
+        speedQuizIndex = 0;
+        speedScore = 0;
+        loadSpeedQuiz();
+      }, 100);
+    }
+
+    function loadSpeedQuiz() {
+      if (speedQuizIndex >= speedQuizData.length) {
+        showSpeedResult();
+        return;
+      }
+      const quiz = speedQuizData[speedQuizIndex];
+      document.getElementById('speed-question-div').innerHTML = `<div class="text-8xl mb-4">${quiz.emoji}</div><div class="text-xl">${quiz.question}</div>`;
+      document.getElementById('speed-countdown').textContent = '30';
+      speedCountdown = 30;
+      speedAnswered = false;
+      
+      const optionsContainer = document.getElementById('speed-options');
+      optionsContainer.innerHTML = '';
+      quiz.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option w-full p-4 text-left bg-white border-2 border-slate-300 rounded-xl text-slate-900 transition-all duration-300';
+        btn.innerHTML = `<span class="font-bold text-amber-600 mr-3">${String.fromCharCode(65 + index)}.</span> ${option}`;
+        btn.onclick = () => selectSpeedAnswer(index, quiz.correct);
+        optionsContainer.appendChild(btn);
+      });
+      startSpeedTimer();
+    }
+
+    function selectSpeedAnswer(index, correct) {
+      if (speedAnswered) return;
+      speedAnswered = true;
+      stopSpeedTimer();
+      if (index === correct) {
+        speedScore++;
+        document.getElementById('speed-score').textContent = speedScore;
+      }
+      const options = document.querySelectorAll('#speed-options .quiz-option');
+      options.forEach(opt => opt.disabled = true);
+      if (index === correct) options[index].classList.add('correct');
+      else {
+        options[index].classList.add('wrong');
+        options[correct].classList.add('correct');
+      }
+      setTimeout(() => {
+        speedQuizIndex++;
+        loadSpeedQuiz();
+      }, 1500);
+    }
+
+    function startSpeedTimer() {
+      speedTimer = setInterval(() => {
+        speedCountdown--;
+        document.getElementById('speed-countdown').textContent = speedCountdown;
+        if (speedCountdown <= 0) {
+          stopSpeedTimer();
+          speedQuizIndex++;
+          loadSpeedQuiz();
+        }
+      }, 1000);
+    }
+
+    function stopSpeedTimer() {
+      if (speedTimer) clearInterval(speedTimer);
+      speedTimer = null;
+    }
+
+    function showSpeedResult() {
+      document.getElementById('speed-playing').classList.add('hidden');
+      document.getElementById('speed-question-div').classList.add('hidden');
+      document.getElementById('speed-options').classList.add('hidden');
+      document.getElementById('speed-result').classList.remove('hidden');
+      document.getElementById('speed-result-text').textContent = `Skor Anda: ${speedScore}/${speedQuizData.length}`;
+    }
+
+    function startWordScramble() {
+      navigateTo('word-scramble');
+      setTimeout(() => {
+        scrambleIndex = 0;
+        scrambleCorrect = 0;
+        loadScrambleWord();
+      }, 100);
+    }
+
+    function loadScrambleWord() {
+      if (scrambleIndex >= wordScrambleData.length) {
+        showScrambleResult();
+        return;
+      }
+      const data = wordScrambleData[scrambleIndex];
+      document.getElementById('scramble-hint').textContent = data.hint;
+      document.getElementById('scramble-question-num').textContent = `${scrambleIndex + 1}/${wordScrambleData.length}`;
+      document.getElementById('scramble-answer').value = '';
+      document.getElementById('scramble-answer').focus();
+
+      const scrambled = shuffleArray(data.word.split('')).join(' ');
+      const board = document.getElementById('scramble-scrambled');
+      board.innerHTML = '';
+      scrambled.split(' ').forEach(letter => {
+        const span = document.createElement('span');
+        span.textContent = letter;
+        span.className = 'bg-slate-200 px-3 py-2 rounded text-lg font-bold cursor-pointer hover:bg-slate-300 transition-all select-none';
+        span.onclick = () => {
+          document.getElementById('scramble-answer').value += letter;
+          document.getElementById('scramble-answer').focus();
+          span.style.opacity = '0.4';
+          span.style.pointerEvents = 'none';
+        };
+        board.appendChild(span);
+      });
+    }
+
+    function submitScrambleAnswer() {
+      const answer = document.getElementById('scramble-answer').value.toUpperCase().trim();
+      const correct = wordScrambleData[scrambleIndex].word;
+      if (answer === correct) {
+        scrambleCorrect++;
+        document.getElementById('scramble-correct').textContent = scrambleCorrect;
+        showToast('✓ Benar!', 'success');
+      } else {
+        showToast(`✗ Salah! Jawaban: ${correct}`, 'error');
+      }
+      setTimeout(() => {
+        scrambleIndex++;
+        loadScrambleWord();
+      }, 1500);
+    }
+
+    function skipScrambleWord() {
+      const correct = wordScrambleData[scrambleIndex].word;
+      showToast(`Jawabannya: ${correct}`, 'info');
+      setTimeout(() => {
+        scrambleIndex++;
+        loadScrambleWord();
+      }, 1500);
+    }
+
+    function showScrambleResult() {
+      document.getElementById('scramble-playing').classList.add('hidden');
+      document.getElementById('scramble-hint').parentElement.classList.add('hidden');
+      document.getElementById('scramble-result').classList.remove('hidden');
+      document.getElementById('scramble-result-text').textContent = `Jawaban Benar: ${scrambleCorrect}/${wordScrambleData.length}`;
+    }
+
+    function startTimelineGame() {
+      navigateTo('timeline-game');
+      setTimeout(() => {
+        timelineIndex = 0;
+        timelineCorrect = 0;
+        loadTimelineLevel();
+      }, 100);
+    }
+
+    function loadTimelineLevel() {
+      if (timelineIndex >= timelineData.length) {
+        showTimelineResult();
+        return;
+      }
+      const level = timelineData[timelineIndex];
+      document.getElementById('timeline-level').textContent = `${timelineIndex + 1}/${timelineData.length}`;
+      timelineItems = shuffleArray([...level.items]);
+      
+      const container = document.getElementById('timeline-items');
+      container.innerHTML = '';
+      timelineItems.forEach((item) => {
+        const div = document.createElement('div');
+        div.className = 'timeline-card';
+        div.textContent = `${item.name} (${item.year})`;
+        div.draggable = true;
+        div.dataset.year = item.year;
+        div.ondragstart = (e) => {
+          draggedItem = item;
+          e.dataTransfer.effectAllowed = 'move';
+          div.classList.add('dragging');
+        };
+        div.ondragend = () => div.classList.remove('dragging');
+        container.appendChild(div);
+      });
+      createTimelineSlots(level.items);
+    }
+
+    function createTimelineSlots(items) {
+      const sorted = [...items].sort((a, b) => b.year - a.year);
+      const dropZone = document.getElementById('timeline-drop-area');
+      dropZone.innerHTML = '';
+      
+      sorted.forEach((item) => {
+        const slot = document.createElement('div');
+        slot.className = 'timeline-slot';
+        slot.innerHTML = `<span class="text-cyan-600 font-bold mr-3">📌</span> <span class="text-slate-500">Tahun ${item.year}</span>`;
+        slot.dataset.correctYear = item.year;
+        slot.dataset.correctName = item.name;
+        
+        slot.ondragover = (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        };
+        slot.ondragleave = () => slot.classList.remove('drag-over');
+        slot.ondrop = (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          if (draggedItem) {
+            slot.innerHTML = `<span class="text-cyan-600 font-bold mr-3">✓</span> <span class="text-slate-900 font-bold">${draggedItem.name}</span>`;
+            slot.dataset.placedYear = draggedItem.year;
+            slot.dataset.placedName = draggedItem.name;
+            slot.classList.add('filled');
+          }
+        };
+        dropZone.appendChild(slot);
+      });
+    }
+
+    function submitTimelineAnswer() {
+      const slots = document.querySelectorAll('#timeline-drop-area > div');
+      let allCorrect = true;
+      
+      slots.forEach((slot) => {
+        slot.classList.remove('correct', 'wrong');
+        if (!slot.dataset.placedYear || slot.dataset.placedYear != slot.dataset.correctYear) {
+          allCorrect = false;
+          slot.classList.add('wrong');
+        } else {
+          slot.classList.add('correct');
+        }
+      });
+      
+      if (allCorrect) {
+        timelineCorrect++;
+        document.getElementById('timeline-correct').textContent = timelineCorrect;
+        showToast('✓ Urutan Benar!', 'success');
+        setTimeout(() => {
+          timelineIndex++;
+          loadTimelineLevel();
+        }, 1500);
+      } else {
+        showToast('✗ Ada yang salah, coba lagi!', 'error');
+      }
+    }
+
+    function showTimelineResult() {
+      document.getElementById('timeline-playing').classList.add('hidden');
+      document.getElementById('timeline-playing-btn').classList.add('hidden');
+      document.getElementById('timeline-result').classList.remove('hidden');
+      document.getElementById('timeline-result-text').textContent = `Sempurna! Kamu menyelesaikan ${timelineCorrect}/${timelineData.length} level`;
+    }
+
+    function loadQuiz() {
+      const quiz = quizData[currentQuizIndex];
+      document.getElementById('quiz-question').textContent = `${currentQuizIndex + 1}. ${quiz.question}`;
+      document.getElementById('quiz-progress').textContent = `Soal ${currentQuizIndex + 1} dari ${quizData.length}`;
+      document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIndex + 1) / quizData.length) * 100}%`;
+      
+      const optionsContainer = document.getElementById('quiz-options');
+      optionsContainer.innerHTML = '';
+      quiz.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option w-full p-4 text-left bg-white border-2 border-slate-300 rounded-xl text-slate-900 transition-all duration-300';
+        btn.innerHTML = `<span class="font-bold text-blue-600 mr-3">${String.fromCharCode(65 + index)}.</span> ${option}`;
+        btn.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(index) {
+      const quiz = quizData[currentQuizIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      options.forEach((opt, i) => {
+        opt.disabled = true;
+        if (i === quiz.correct) opt.classList.add('correct');
+        else if (i === index && i !== quiz.correct) opt.classList.add('wrong');
+      });
+      if (index === quiz.correct) {
+        quizScore++;
+        document.getElementById('quiz-score').textContent = `Skor: ${quizScore}`;
+      }
+      setTimeout(() => {
+        currentQuizIndex++;
+        if (currentQuizIndex < quizData.length) loadQuiz();
+        else showQuizResult();
+      }, 1500);
+    }
+
+    function showQuizResult() {
+      document.getElementById('quiz-container').classList.add('hidden');
+      document.getElementById('quiz-result').classList.remove('hidden');
+      const percentage = (quizScore / quizData.length) * 100;
+      let emoji, text;
+      if (percentage === 100) {
+        emoji = '🏆';
+        text = 'Sempurna! Kamu mendapat nilai 100%!';
+      } else if (percentage >= 80) {
+        emoji = '🎉';
+        text = `Hebat! Skor kamu: ${quizScore}/${quizData.length}`;
+      } else if (percentage >= 60) {
+        emoji = '👍';
+        text = `Bagus! Skor kamu: ${quizScore}/${quizData.length}`;
+      } else {
+        emoji = '💪';
+        text = `Terus belajar! Skor kamu: ${quizScore}/${quizData.length}`;
+      }
+      document.getElementById('result-emoji').textContent = emoji;
+      document.getElementById('result-text').textContent = text;
+    }
+
+    function restartQuiz() {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      document.getElementById('quiz-score').textContent = 'Skor: 0';
+      document.getElementById('quiz-container').classList.remove('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+      loadQuiz();
+    }
+
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+
+    function showToast(message, type) {
+      const toast = document.createElement('div');
+      let bgColor = 'bg-green-600';
+      if (type === 'error') bgColor = 'bg-red-600';
+      if (type === 'info') bgColor = 'bg-blue-600';
+      toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-xl text-white font-bold z-50 transition-all ${bgColor}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    function playVideo() {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      player.src = 'https://www.youtube.com/embed/ZUoTaQSkitE?autoplay=1&modestbranding=1';
+      modal.classList.remove('hidden');
+    }
+
+    function closeVideo() {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      player.src = '';
+      modal.classList.add('hidden');
+    }
+
+    function openVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      player.src = 'https://www.youtube.com/embed/ZUoTaQSkitE?autoplay=1&modestbranding=1';
+      modal.classList.remove('hidden');
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const player = document.getElementById('video-player');
+      player.src = '';
+      modal.classList.add('hidden');
+    }
+
+    async function saveQuizScore() {
+      if (recordCount >= 999) {
+        showToast('Batas penyimpanan tercapai!', 'error');
+        return;
+      }
+      const result = await window.dataSdk.create({
+        quiz_score: quizScore,
+        game_score: 0,
+        completed_at: new Date().toISOString()
+      });
+      if (result.isOk) {
+        showToast('Skor kuis berhasil disimpan!', 'success');
+      } else {
+        showToast('Gagal menyimpan skor', 'error');
+      }
+    }
+
+    const dataHandler = {
+      onDataChanged(data) {
+        recordCount = data.length;
+      }
+    };
+
+    async function onConfigChange(config) {
+      const mainTitle = document.getElementById('main-title');
+      const subtitle = document.getElementById('subtitle');
+      if (mainTitle) {
+        mainTitle.textContent = config.main_title || defaultConfig.main_title;
+        mainTitle.style.fontFamily = `${config.font_family || defaultConfig.font_family}, sans-serif`;
+      }
+      if (subtitle) {
+        subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+        subtitle.style.fontFamily = `${config.font_family || defaultConfig.font_family}, sans-serif`;
+      }
+      document.body.style.fontFamily = `${config.font_family || defaultConfig.font_family}, sans-serif`;
+    }
+
+    (async function() {
+      try {
+        if (window.elementSdk) {
+          window.elementSdk.init({
+            defaultConfig,
+            onConfigChange,
+            mapToCapabilities: (config) => ({
+              recolorables: [],
+              borderables: [],
+              fontEditable: {
+                get: () => config.font_family || defaultConfig.font_family,
+                set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+              },
+              fontSizeable: {
+                get: () => config.font_size || defaultConfig.font_size,
+                set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+              }
+            }),
+            mapToEditPanelValues: (config) => new Map([
+              ['main_title', config.main_title || defaultConfig.main_title],
+              ['subtitle', config.subtitle || defaultConfig.subtitle]
+            ])
+          });
+        }
+        if (window.dataSdk) {
+          await window.dataSdk.init(dataHandler);
+        }
+      } catch (error) {
+        console.error('Initialization error:', error);
+      }
+      navigateTo('home');
+    })();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d9558eb44cca2c5',t:'MTc3MzAwOTY4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>s
